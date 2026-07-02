@@ -14,6 +14,9 @@ export function PriceCalculator() {
 
     const form = useForm<PriceCalculatorFormValues>({
         resolver: zodResolver(priceCalculatorSchema),
+        defaultValues: {
+            cashOnDelivery: false,
+        },
     })
 
     function onSubmit(data: PriceCalculatorFormValues) {
@@ -28,35 +31,46 @@ export function PriceCalculator() {
                 </h2>
 
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                    <div className="flex items-start justify-between">
-                        <div className="w-1/2">
-                            <label htmlFor="country" className="block text-sm text-neutral-700 mb-3">
-                                Cieľová krajina:
-                            </label>
-                            <select
-                                id="country"
-                                {...form.register("country")}
-                                className="w-full border-0 border-b border-neutral-300 bg-transparent py-2 text-neutral-700 focus:outline-none focus:border-red-600"
-                            >
-                                <option value="">-- vyber krajinu --</option>
-                                <option value="SK">Slovensko</option>
-                                <option value="CZ">Česká republika</option>
-                                <option value="DE">Nemecko</option>
-                                <option value="PL">Poľsko</option>
-                                <option value="HU">Maďarsko</option>
-                                <option value="AT">Rakúsko</option>
-                            </select>
-                            {form.formState.errors.country && (
-                                <p className="text-red-600 text-xs mt-1">
-                                    {form.formState.errors.country.message}
-                                </p>
-                            )}
-                        </div>
-
-                        <label className="flex items-center gap-2 text-sm text-neutral-700">
-                            <input type="checkbox" className="h-4 w-4" />
+                    <div className="grid grid-cols-2 gap-x-16 items-start">
+                        <label htmlFor="country" className="text-sm text-neutral-700 block mb-3">
+                            Cieľová krajina:
+                        </label>
+                        <label className="flex items-center gap-2 text-sm text-neutral-700 mb-3">
+                            <input
+                                type="checkbox"
+                                {...form.register("cashOnDelivery")}
+                                className="h-4 w-4 accent-red-600"
+                            />
                             Dobierka
                         </label>
+
+                        <select
+                            id="country"
+                            {...form.register("country")}
+                            className="w-full border-0 border-b border-neutral-300 bg-transparent py-2 text-neutral-700 focus:outline-none focus:border-red-600"
+                        >
+                            <option value="">-- vyber krajinu --</option>
+                            <option value="SK">Slovensko</option>
+                            <option value="CZ">Česká republika</option>
+                            <option value="DE">Nemecko</option>
+                            <option value="PL">Poľsko</option>
+                            <option value="HU">Maďarsko</option>
+                            <option value="AT">Rakúsko</option>
+                        </select>
+
+                        <div className="min-h-10.5">
+                        {form.watch("cashOnDelivery") ? (
+                            <input
+                                id="cashOnDeliveryAmount"
+                                type="number"
+                                placeholder="Dobierková suma"
+                                {...form.register("cashOnDeliveryAmount", { valueAsNumber: true })}
+                                className="w-full border-0 border-b border-neutral-300 bg-transparent py-2 text-neutral-400 placeholder-neutral-400 focus:outline-none focus:border-red-600"
+                            />
+                        ) : (
+                            <div />
+                        )}
+                        </div>
                     </div>
 
                     <div>
