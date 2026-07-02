@@ -1,19 +1,24 @@
 "use client"
 
+import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import {
     priceCalculatorSchema,
     type PriceCalculatorFormValues,
 } from "@/lib/validation/price-calculator.schema"
+import { calculatePrice } from "@/lib/pricing/calculate-price"
 
 export function PriceCalculator() {
+    const [price, setPrice] = useState<number | null>(null)
+
     const form = useForm<PriceCalculatorFormValues>({
         resolver: zodResolver(priceCalculatorSchema),
     })
 
     function onSubmit(data: PriceCalculatorFormValues) {
-        console.log("submitted data:", data)
+        const result = calculatePrice(data)
+        setPrice(result)
     }
 
     return (
@@ -86,6 +91,9 @@ export function PriceCalculator() {
 
                 <button type="submit">Vypočítať</button>
             </form>
+            {price !== null && (
+                <p>Cena prepravy: {price} €</p>
+            )}
         </div>
     )
 }
