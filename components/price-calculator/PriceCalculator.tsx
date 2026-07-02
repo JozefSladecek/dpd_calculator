@@ -65,7 +65,7 @@ export function PriceCalculator() {
                                 type="number"
                                 placeholder="Dobierková suma"
                                 {...form.register("cashOnDeliveryAmount", { valueAsNumber: true })}
-                                className="w-full border-0 border-b border-neutral-300 bg-transparent py-2 text-neutral-400 placeholder-neutral-400 focus:outline-none focus:border-red-600"
+                                className="w-full border-0 border-b border-neutral-300 bg-transparent py-2 text-neutral-700 placeholder-neutral-400 focus:outline-none focus:border-red-600"
                             />
                         ) : (
                             <div />
